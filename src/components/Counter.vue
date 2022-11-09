@@ -31,8 +31,12 @@ export default {
     // reduceBtn() {
     //   this.reduceCount()
     // },
+    // reduceBtn() {
+    //   this.asyncReduce()
+    // },
+    // ======使用 dispatch 触发 Action 函数======
     reduceBtn() {
-      this.asyncReduce()
+      this.$store.dispatch( "asyncReduce" )
     },
   },
   // =====commit=====
