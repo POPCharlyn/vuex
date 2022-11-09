@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'Counter',
@@ -24,11 +24,15 @@ export default {
   },
   methods: {
     ...mapMutations( [ 'addCount', 'reduceCount' ] ),
+    ...mapActions( [ 'asyncReduce' ] ),
     addBtn() {
       this.addCount( 10 )
     },
+    // reduceBtn() {
+    //   this.reduceCount()
+    // },
     reduceBtn() {
-      this.reduceCount()
+      this.asyncReduce()
     },
   },
   // =====commit=====

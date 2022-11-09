@@ -24,6 +24,13 @@ export default new Vuex.Store( {
             state.count--
         },
     },
-    actions: {},
+    // 异步操作 mutations，就得使用 Action
+    actions: {
+        asyncReduce( context ) {
+            setTimeout( () => {
+                context.commit( 'reduceCount' )
+            }, 100 )
+        },
+    },
     modules: {},
 } )
