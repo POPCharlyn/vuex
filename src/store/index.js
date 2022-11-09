@@ -5,70 +5,33 @@ Vue.use( Vuex )
 
 export default new Vuex.Store( {
     state: {
-        count: 12,
-        todos: [
-            { id: 1, text: '...', done: true, name: 'tom', age: 12 },
-            { id: 2, text: '...', done: false, name: 'marry', age: 32 },
-            { id: 3, text: '...', done: false, name: 'jenny', age: 22 },
-            { id: 4, text: '...', done: true, name: 'tommy', age: 20 },
-            { id: 5, text: '...', done: true, name: 'jeffy', age: 18 },
-            { id: 6, text: '...', done: false, name: 'jeffy', age: 17 },
-        ],
-    },
-    getters: {
-        doneTodos: state => {
-            console.log( '-------------------------------------------------------------------------------------' )
-            console.log( 'state.todos.filter( todo => todo.done ):', state.todos.filter( todo => todo.done ) )
-            console.log( '-------------------------------------------------------------------------------------' )
-            return state.todos.filter( todo => todo.done )
-        },
-        doneTodosCount: ( state, getters ) => {
-            console.log( 'doneTodosCount--state:', state )
-            console.log( 'doneTodosCount--getters:', getters )
-            console.log( 'getters.doneTodos.length:', getters.doneTodos.length )
-            return getters.doneTodos.length
-        },
-        powerCount( state ) {
-            console.log( 'powerCount--state:', state )
-            return state.count * state.count
-        },
-        moreTodosAge( state ) {
-            console.log( 'moreTodos--state:', state )
-            return Age => {
-                return state.todos.filter( item => item.age > Age )
-            }
-
-        },
-        moreTodosLength( state, getters ) {
-            console.log( 'moreTodosLength--state:', state )
-            console.log( 'moreTodosLength--getters:', getters )
-            return getters.moreTodosAge.length
-        },
+        sum: 22,
     },
     mutations: {
-        increment( state ) {
-            state.count++
+        Add( state, value ) {
+            console.error( 'mutations--Add:', state, value )
+            state.sum += value
         },
-        decrement( state ) {
-            state.count--
-        },
-        addCount( state, num ) {
-            state.count = +state.count + num
-        },
-        reduceCount( state ) {
-            state.count--
+        Reduce( state, value ) {
+            console.error( 'Reduce--Reduce:', state, value )
+            state.sum -= value
         },
     },
-    // 异步操作 mutations，就得使用 Action
     actions: {
-        asyncReduce( context ) {
-            console.log( 'context', context )
-            console.log( 'context.getters', context.getters )
-            console.log( 'context.state', context.state )
+        add( context, value ) {
+            console.error( 'actions--add:', context, value )
+            context.commit( 'Add', value )
+        },
+        addOrigin( context, value ) {
+            if ( context.state.sum % 2 ) { // 奇数
+                console.error( 'action--addOrigin:', context, value )
+                context.commit( 'Add', value )
+            }
+        },
+        addAsync( context, value ) {
             setTimeout( () => {
-                context.commit( 'reduceCount' )
-            }, 100 )
+                context.commit( 'Add', value )
+            }, 500 )
         },
     },
-    modules: {},
 } )

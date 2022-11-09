@@ -6,19 +6,16 @@
 */
 <template>
   <div class="count">
-    {{ this.$store.state.count }}
-    <button @click="btn">btn</button>
-    <button @click="addBtn">add</button>
-    <button @click="reduceBtn">reduce</button>
-    <h2>-------------------------Counter: getter message------------------------</h2>
-    <h3>{{ this.$store.getters.powerCount }}</h3>
-    <span>
-      filter:
-    <h3>{{ this.$store.getters.moreTodosAge( 20 ) }}</h3>
-    </span>
-    <h3>{{ this.$store.getters.moreTodosLength }}</h3>
-    <h3>{{ this.$store.getters.doneTodos }}</h3>
-    <h3>{{ this.$store.getters.doneTodosCount }}</h3>
+    sum: {{ this.$store.state.sum }}
+    <select v-model.number="num">
+      <option value="1">1</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+    </select>
+    <button @click="increment">increment</button>
+    <button @click="decrement">decrement</button>
+    <button @click="incrementOrigin">incrementOrigin 当前求和为奇数再加</button>
+    <button @click="incrementAsync">incrementAsync 等一等再加</button>
   </div>
 </template>
 
@@ -27,44 +24,25 @@ import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'Counter',
-  computed: {
-    doneTodosCount() {
-      return this.$store.state.todos.filter( todo => todo.done ).length
-    },
-  },
-  mounted() {
-    this.btn()
+  data() {
+    return {
+      num: 100,
+    }
   },
   methods: {
-    btn() {
-      console.log( 'this.$store.getters.doneTodos', this.$store.getters.doneTodos )
-      console.log( 'this.$store.getters.doneTodosCount', this.$store.getters.doneTodosCount )
+    increment() {
+      return this.$store.dispatch( 'add', this.num )
     },
-    ...mapMutations( [ 'addCount', 'reduceCount' ] ),
-    ...mapActions( [ 'asyncReduce' ] ),
-    addBtn() {
-      this.addCount( 10 )
+    decrement() {
+      return this.$store.commit( 'Reduce', this.num )
     },
-    // reduceBtn() {
-    //   this.reduceCount()
-    // },
-    // reduceBtn() {
-    //   this.asyncReduce()
-    // },
-    // ======使用 dispatch 触发 Action 函数======
-    reduceBtn() {
-      this.$store.dispatch( 'asyncReduce' )
+    incrementOrigin() {
+      this.$store.dispatch( 'addOrigin', this.num )
+    },
+    incrementAsync() {
+      this.$store.dispatch( 'addAsync', this.num )
     },
   },
-  // =====commit=====
-  // methods: {
-  //   addBtn() {
-  //     this.$store.commit( 'addCount', 10 )
-  //   },
-  //   reduceBtn() {
-  //     this.$store.commit( 'reduceCount' )
-  //   },
-  // },
 }
 </script>
 
